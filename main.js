@@ -271,5 +271,13 @@ Trello.prototype.addStickerToCard = function(cardId, image, left, top, zIndex, r
     return makeRequest(rest.post, this.uri+'/1/cards/' + cardId + '/stickers', {query:query, data:data}, callback);
 };
 
+Trello.prototype.addMemberToBoard = function(boardId, memberId, type, callback) {
+    var query = this.createQuery();
+    query.idMember = memberId;
+    query.type = type;
+
+    return makeRequest(rest.put, this.uri + '/1/boards/' + boardId + '/members/' + memberId, {query: query}, callback);
+};
+
 
 module.exports = Trello;

@@ -773,4 +773,36 @@ describe('Trello', function () {
             restler.put.restore();
         });
     });
+
+    describe('addMemberToBoard', function() {
+        var query;
+        var post;
+
+        beforeEach(function (done) {
+            sinon.stub(restler, 'put', function (uri, options) {
+                return {once: function (event, callback) {
+                    callback(null, null);
+                }};
+            });
+
+            trello.addMemberToBoard('boardId', 'memberId', 'type', function () {
+                query = restler.put.args[0][1].query;
+                post = restler.put;
+                done();
+            });
+        });
+
+        it('should post to https://api.trello.com/1/boards/boardId/members/memberId', function () {
+            post.should.have.been.calledWith('https://api.trello.com/1/boards/boardId/members/memberId');
+        });
+
+        it('should include the member id and type', function () {
+            query.idMember.should.equal('memberId');
+            query.type.should.equal('type');
+        });
+
+        afterEach(function () {
+            restler.put.restore();
+        });
+    });
 });
