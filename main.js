@@ -279,5 +279,13 @@ Trello.prototype.addMemberToBoard = function(boardId, memberId, type, callback) 
     return makeRequest(rest.put, this.uri + '/1/boards/' + boardId + '/members/' + memberId, {query: query}, callback);
 };
 
+Trello.prototype.getAttachmentsOnCard = function(cardId, fields, filter, callback) {
+    var query = this.createQuery();
+    if (fields !== null) query.fields = fields;
+    if (filter !== null) query.filter = filter;
+
+    return makeRequest(rest.get, this.uri + '/1/cards/' + cardId + '/attachments', {query: query}, callback);
+};
+
 
 module.exports = Trello;
