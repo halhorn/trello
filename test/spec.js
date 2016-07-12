@@ -837,4 +837,35 @@ describe('Trello', function () {
             restler.get.restore();
         });
     });
+
+    describe('getMembersOnCard', function () {
+        var get;
+        var query;
+
+        beforeEach(function (done) {
+            sinon.stub(restler, 'get', function (uri, options) {
+                return {once: function (event, callback) {
+                    callback(null, null);
+                }};
+            });
+
+            trello.getMembersOnCard('cardId', 'bio', function () {
+                get = restler.get;
+                query = restler.get.args[0][1].query;
+                done();
+            });
+        });
+
+        it('should get to https://api.trello.com/1/cards/cardId/members', function () {
+            get.should.have.been.calledWith('https://api.trello.com/1/cards/cardId/members');
+        });
+
+        it('should include the fields and type', function () {
+            query.fields.should.equal('bio');
+        });
+
+        afterEach(function () {
+            restler.get.restore();
+        });
+    });
 });

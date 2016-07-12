@@ -287,5 +287,12 @@ Trello.prototype.getAttachmentsOnCard = function(cardId, fields, filter, callbac
     return makeRequest(rest.get, this.uri + '/1/cards/' + cardId + '/attachments', {query: query}, callback);
 };
 
+Trello.prototype.getMembersOnCard = function(cardId, fields,callback) {
+    var query = this.createQuery();
+    if (fields !== null) query.fields = fields;
+
+    return makeRequest(rest.get, this.uri + '/1/cards/' + cardId + '/members', {query: query}, callback);
+};
+
 
 module.exports = Trello;
